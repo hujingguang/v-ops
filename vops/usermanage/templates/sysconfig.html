@@ -1,0 +1,144 @@
+{%extends "base.html"%}
+{%block content%}
+<!-- Topbar -->
+<!-- End of Topbar -->
+
+<!-- Begin Page Content -->
+<div class="container-fluid form-horizontal">
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+	<h1 class="h4 mb-0 text-gray-800">System Configure</h1>
+    </div>
+    <!-- Content Row -->
+    <div class="row">
+	<div class="m-auto" style="width:450px;height:450px;">
+	    <!-- panel -->
+	    <div class="panel panel-default">
+		<div class="panel-heading">
+		</div>
+		<div class="panel-body" >
+		    <form id="form-system-config">
+			<div class="form-group">
+			    <!--
+			    <label for="default_auth_group"><font size=1>DEFAULT_AUTH_GROUP</font>
+			    </label>
+			    -->
+			    <input type="text" class="form-control input-sm" id="default_auth_group" key="default_auth_group" value="{{sys_config.default_auth_group}}" aria-describedby="default_auth_group" placeholder="默认权限组名">
+			    <small id="description" class="form-text text-muted">(新用户登录默认加入的权限组)</small>
+			</div>
+
+			<div class="form-group">
+			    <!--
+			    <label for="git_username"><font size=1>GIT_SERVER_ADDRESS</font>
+			    </label>
+			    -->
+			    <input type="text" class="form-control" id="git_server_address" key="git_server_address" value="{{sys_config.git_server_address}}" aria-describedby="git_server_address" placeholder="git仓库服务器地址">
+			    <small id="description" class="form-text text-muted">(Git仓库服务器地址)</small>
+			</div>
+
+			<div class="form-group">
+			    <!--
+			    <label for="git_username"><font size=1>GIT_USERNAME</font>
+			    </label>
+			    -->
+			    <input type="text" class="form-control" id="git_username" key="git_username" value="{{sys_config.git_username}}" aria-describedby="git_username" placeholder="git仓库代码获取用户名">
+			    <small id="description" class="form-text text-muted">(Git仓库使用用户名)</small>
+			</div>
+
+
+			<div class="form-group">
+			    <!--
+			    <label for="git_password"><font size=1>GIT_PASSWORD</font>
+			    </label>
+			    -->
+			    <input type="password" class="form-control" id="git_password" key="git_password" value="{{sys_config.git_password}}" aria-describedby="git_password" placeholder="git仓库代码用户密码">
+			    <small id="description" class="form-text text-muted">(Git仓库用户密码)</small>
+			</div>
+
+
+			<div class="form-group">
+			    <!--
+			    <label for="jenkins_username"><font size=1>JENKINS_USERNAME</font>
+			    </label>
+			    -->
+			    <input type="text" class="form-control" id="jenkins_username" key="jenkins_username" value="{{sys_config.jenkins_username}}" aria-describedby="jenkins_username" placeholder="">
+			    <small id="description" class="form-text text-muted">(Jenkins管理员用户名)</small>
+			</div>
+
+
+			<div class="form-group">
+			    <input type="password" class="form-control" id="jenkins_password" key="jenkins_password" value="{{sys_config.jenkins_password}}" aria-describedby="jenkins_password" placeholder="">
+			    <small id="description" class="form-text text-muted">(Jenkins用户密码)</small>
+			</div>
+
+			<div class="form-group">
+			    <input type="text" class="form-control" id="maven_bin_path" key="maven_bin_path" value="{{sys_config.maven_bin_path}}" aria-describedby="maven_bin_path" placeholder="">
+			    <small id="description" class="form-text text-muted">(maven二进制文件目录路径)</small>
+			</div>
+
+			<div class="form-group">
+			    <div class="col-xs-6 col-md-4 col-center-block" style="margin-top:100px;">
+				<button type="button" class="btn btn-primary" id="save_config">保存配置</button>
+			    </div>
+			</div>
+		    </form>
+		</div>
+	    </div>
+
+	</div>
+    </div>
+</div>
+<style>
+.col-center-block {
+    float: none;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+</style>
+
+{%endblock content%}
+
+
+{%block js%}
+<script>
+
+    $("#save_config").click(function(){
+	    var sys_config = $("#form-system-config");
+	    var configs = [];
+	    sys_config.find('[key]').each(
+		    function(){
+			    var config_item = $(this).attr('key');
+			    var config_value = $(this).val();
+			    configs.push({
+				    key: config_item,
+				    value: config_value
+				});
+			});
+	    $.ajax({
+		    type: "post",
+		    url: "/sysconfig/change/",
+		    dataType: "json",
+		    data: {
+			    configs: JSON.stringify(configs),
+			},
+		    compelte: function(){},
+		    success: function(data){
+			    if(data.status == 0){
+				    var succ_notify = "<div class='alert alert-danger'>更新成功</div>";
+				    alert('保存成功');
+				    window.location.reload();
+				}
+			    else{
+				    alert(data.msg);
+				}
+			},
+		    error: function(XMLHttpRequest,textStatus,errorThrown){
+			    alert();
+			}
+		});
+
+	});
+</script>
+
+{%endblock%}

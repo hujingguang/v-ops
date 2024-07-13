@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+	<title>Vantop devops system - Login</title>
+
+	<!-- Custom fonts for this template-->
+	{% load static %}
+	<link rel="shortcut icon" href="{%static 'img/favicon.png'%}">
+	<link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+	<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+	<!-- Custom styles for this template-->
+	<link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
+
+    </head>
+
+    <body class="bg-gradient-primary">
+
+	<div class="container">
+
+	    <!-- Outer Row -->
+	    <div class="row justify-content-center">
+
+		<div class="col-xl-10 col-lg-12 col-md-9">
+
+		    <div class="card o-hidden border-0 shadow-lg my-5">
+			<div class="card-body p-0">
+			    <!-- Nested Row within Card Body -->
+			    <div class="row">
+				<div class="col-lg-6 d-none d-lg-block bg-login-image" style="background-image: url(https://vantop-public-read.oss-cn-shenzhen.aliyuncs.com/img/login_img.png)"></div>
+				<div class="col-lg-6">
+				    <div class="p-5">
+					<div class="text-center">
+					    <h1 class="h4 text-gray-900 mb-4">欢迎登录 Vantop DEVOPS 平台</h1>
+					</div>
+					<form class="user login-form fade-in-effect" id='login' method='post' role='form'>
+					    {%csrf_token%}
+					    <div class="form-group">
+						<input type="email" class="form-control form-control-user" id="inputUsername" aria-describedby="emailHelp" placeholder="Username" name='username' required>
+					    </div>
+					    <div class="form-group">
+						<input type="password" class="form-control form-control-user" id="inputPassword" name='password' placeholder="Password" required>
+					    </div>
+					    <div class="form-group">
+						<div class="custom-control custom-checkbox small">
+						    <input type="checkbox" class="custom-control-input" id="customCheck">
+						    <label class="custom-control-label" for="customCheck">使用Ldap账号登录</label>
+						</div>
+					    </div>
+					    <button class="btn btn-primary btn-block" id="btnLogin" type="button">Login</button> 
+					    <hr>
+					</form>
+				    </div>
+				</div>
+			    </div>
+			</div>
+		    </div>
+
+		</div>
+
+	    </div>
+
+	</div>
+
+
+
+
+	<!-- 模态框（Modal） -->                                                                                                                                                                                                                 
+	<div class="modal fade" id="wrongpwd-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+										aria-hidden="true">
+	    <div class="modal-dialog">
+		<div class="modal-content">
+		    <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+			    &times;
+			</button>
+			<h4 class="modal-title" id="myModalLabel">
+			    提示
+			</h4>
+		    </div>
+		    <div class="modal-body" id="wrongpwd-modal-body"></div>
+		    <div class="modal-footer">
+			<button type="button" class="btn btn-primary" data-dismiss="modal">确定
+			</button>
+		    </div>
+		</div><!-- /.modal-content -->
+	    </div><!-- /.modal -->
+	</div>
+
+
+
+	<script src="{% static 'vendor/jquery/jquery.min.js'%}"></script>
+	<script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+	<script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+	<script src="{% static 'js/sb-admin-2.min.js' %}"></script>
+
+    </body>
+
+    <!-- 解决CSRF-->
+    <script>
+	$(function () {
+		    $.ajaxSetup({
+				headers: {"X-CSRFToken": getCookie("csrftoken")}
+			    });
+		});
+	function getCookie(name) {
+		    var cookieValue = null;
+		    if (document.cookie && document.cookie !== '') {
+				var cookies = document.cookie.split(';');
+				for (var i = 0; i < cookies.length; i++) {
+					    var cookie = jQuery.trim(cookies[i]);
+					    // Does this cookie string begin with the name we want?
+					    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+							cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+							break;
+						    }
+					}
+			    }
+		    return cookieValue;
+		}
+    </script>
+
+
+
+
+    <script>
+	<!-- 退出登录后清空sessionStorage -->
+	$(document).ready(function () {
+		    sessionStorage.clear();
+		});
+
+	//回车键提交表单登录
+	$(document).ready(function () {
+		    $(document).keydown(function (event) {
+				//keycode==13为回车键
+				console.log($("#sign-up").css("display"));
+				//if (event.keyCode === 13 && $("#sign-up").css("display") === 'none') {
+				if (event.keyCode === 13) {
+					    $('#btnLogin').addClass('disabled');
+					    $('#btnLogin').prop('disabled', true);
+					    let username = $('#inputUsername').val();
+					    let password = $('#inputPassword').val();
+					    authenticateUser(username, password);
+					}
+			    });
+		});
+
+	$('#btnLogin').click(function () {
+		    $('#btnLogin').addClass('disabled');
+		    $('#btnLogin').prop('disabled', true);
+		    username = $('#inputUsername').val();
+		    password = $('#inputPassword').val();
+		    authenticateUser(username, password);
+		});
+
+
+	function authenticateUser(username, password) {
+		    $.ajax({
+				type: "post",
+				url: "/authenticate/",
+				dataType: "json",
+				data: {
+					    username: username,
+					    password: password
+					},
+				complete: function () {
+					    $('#btnLogin').removeClass('disabled');
+					    $('#btnLogin').prop('disabled', false);
+					},
+				success: function (data) {
+					    if (data.status == 0) {
+							$(location).attr('href', '/index/');
+						    } else {
+								$('#wrongpwd-modal-body').html(data.msg);
+								$('#wrongpwd-modal').modal({
+									    keyboard: true
+									});
+							    }
+					},
+				error: function (XMLHttpRequest, textStatus, errorThrown) {
+					    alert(errorThrown);
+					}
+			    });
+		};
+    </script>
+
+
+
+
+
+</html>

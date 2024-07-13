@@ -1,0 +1,13 @@
+django==v3.1.0
+mysqlclient==v2.0.1
+simplejson==v3.17.2
+django-auth-ldap==v2.2.0
+pymysql==v0.9.3
+django-mirage-field==v1.1.6
+gitpython==v3.1.11
+python-jenkins==v1.7.0
+django-q==v1.3.4
+redis==3.5.3
+django-redis==4.12.1
+requests==2.25.0
+elementpath==v2.0.4

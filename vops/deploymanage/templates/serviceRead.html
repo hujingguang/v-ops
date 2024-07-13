@@ -1,0 +1,141 @@
+{%extends "base.html"%}
+{%load static%}
+{%block content%}
+<div class="container-fluid">
+    <h3 class="h3 mb-1 text-gray-800">项目发布管理须知</h3>
+    <p></p>
+    <p class="mb-4" >为了更好的通过平台自动化管理项目分支和发布,请各位开发测试人员遵守相应的规则进行操作</p>
+
+
+
+    <div class="row">
+
+	<!-- Grow In Utility -->
+	<div class="col-lg-6">
+
+	    <div class="card position-relative">
+		<div class="card-header py-3">
+		    <h7 class="m-0 font-weight-bold text-primary">模块说明</h7>
+		</div>
+		<div class="card-body">
+		    <div class="small mb-1"><code>服务定义说明:</code></div>
+		    <p class="mb-0 small">1. 在服务提测和上线之前需要先配置服务的信息: git代码仓库地址,工程使用的pom文件路径(默认路径为:./ 如果是子工程请填写相对根目录的完整目录位置) 
+		    然后在服务绑定里面绑定服务调用的依赖服务
+		    </p>
+		    <p> </p>
+		    <p class="mb-0 small">2. 服务依赖包之间不能互相依赖，所有工程的基础包nextop-base-parent会自动从master的最新代码打包并deploy进行版本替换
+		    </p>
+		    <p> </p>
+		    <p class="mb-0 small">3. 服务依赖关系只支持到两层，比如 nextop-goods 依赖 nextop-goods-api,nextop-goods-api依赖nextop-core .  不支持再配置nextop-core 依赖 nextop-common
+		    </p>
+
+		    <p></p>
+		    <div class="small mb-1"><code>服务提测说明:</code></div>
+		    <p class="mb-0 small">1. 该模块用来提测服务版本,填写好服务和提测分支后,会自动从当前的提测分支派生一个测试分支,并可以选择是否打开代码同步功能,如果打开此开关,每次从该平台进行提测分支发布都会将提测分支的代码合并到
+		    自动创建的测试分支再进行部署.如果没有打开同步,则需要自己将特性分支代码同步到测试分支进行部署测试
+		    </p>
+		    <p> </p>
+		    <p class="mb-0 small">2. 提测分支必须以feature命名开头,否则无法进行提测</p>
+		    <p> </p>
+		    <p class="mb-0 small">3. 生成的测试分支以auto.test命名开头,只有对应分配的测试人员才可以操作该版本是否通过提测</p>
+		    <p> </p>
+
+
+		    <div class="small mb-1"><code>服务上线说明:</code></div>
+		    <p class="mb-0 small">1. 该模块进行提测版本上线,可以选择多个提测通过的版本进行上线,</p>
+		    <p> </p>
+		    <p class="mb-0 small">2. 服务上线需要填写对应依赖包的分支信息,如果不填写则默认选择使用的顺序为：上次成功上线后生成的依赖包分支--> master分支</p>
+		    <p> </p>
+		    <p class="mb-0 small">3. 点击生成版本操作按钮后服务及其依赖包都会生成以<code>auto.release</code>开头的发布分支,
+		    并将配置的依赖服务deploy到maven仓库并替换pom文件版本然后提交到git</p>
+		    <p> </p>
+		    <p> </p>
+		    <p> </p>
+		    <p> </p>
+		    <p> </p>
+		    <p> </p>
+		    <p> </p>
+		    <p> </p>
+		</div>
+	    </div>
+	</div>
+
+
+	<div class="col-lg-6">
+
+	    <div class="card position-relative">
+		<div class="card-header py-3">
+		    <h7 class="m-0 font-weight-bold text-primary">上线邮件格式</h7>
+		</div>
+		<div class="card-body">
+		    <div class="mb-3">
+			<code>上线通知： （上线业务功能描述） </code>
+		    </div>
+
+		    <div>
+		    </div>
+
+		    <div class="mb-3">
+			<div class="mb-3"> <code>上线环境： （预发环境 or 生产环境）</code></div>
+		    </div>
+
+		    <div class="mb-3">
+			<div class="mb-3"> <code>上线申请人： xxx </code></div>
+		    </div>
+
+
+		    <div class="small mb-1"></div>
+
+		    <div class="mb-3">
+			<div class="mb-3"> <code>上线相关人员：  </code></div>
+		    </div>
+		    <div class="small mb-1"></div>
+		    <div class="small mb-1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;前端人员:</div>
+		    <div class="small mb-1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;后端人员:</div>
+		    <div class="small mb-1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;产品经理:</div>
+		    <div class="small mb-1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;测试人员:</div>
+
+
+		    <div class="mb-3">
+			<div class="mb-3"> <code>上线服务及版本：  </code></div>
+		    </div>
+		    <div class="small mb-1"></div>
+		    <div class="small mb-1"><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;服务:  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;发布版本： </p></div>
+
+
+		    <div class="mb-3">
+			<div class="mb-3"> <code>数据库变更：  </code></div>
+		    </div>
+		    <div class="small mb-1"></div>
+		    <div class="small mb-1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;数据库文件: &nbsp;&nbsp;（附件上传</div>
+		    <div class="small mb-1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SQL平台工单链接:  </div>
+		    <div class="small mb-1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SQL平台执行结果: (已执行/未执行)</div>
+
+
+
+		    <div class="mb-3">
+			<div class="mb-3"> <code>配置变更：  </code></div>
+		    </div>
+
+
+		    <div class="small mb-1">(邮件抄送运维组: helpdesk@vantopgroup.com)</div>
+
+
+
+		</div>
+	    </div>
+
+	</div>
+
+
+    </div>
+
+
+
+
+</div>
+
+
+
+{%endblock content%}
+

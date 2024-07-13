@@ -1,0 +1,80 @@
+{%extends "base.html" %}
+{%load static%}
+{%block content %}
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">组件信息</h1>
+    <p class="mb-4">
+    <div>
+    <button class="btn btn-success">部署组件</button>
+    <button class="btn btn-default"></button>
+    <button class="btn btn-default"></button>
+    <button class="btn btn-primary">绑定环境</button>
+    </div>
+    </p>
+    <!--
+    <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below. For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p>
+    -->
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+	<div class="card-header py-3">
+	    <h6 class="m-0 font-weight-bold text-primary"></h6>
+	</div>
+	<div class="card-body">
+	    <div class="table-responsive">
+		<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+		    <thead>
+			<tr>
+			    <th>环境名</th>
+			    <th>主要负责人</th>
+			    <th>访问地址</th>
+			    <th>关联组件</th>
+			    <th>创建时间</th>
+			    <th>修改时间</th>
+			    <th>状态</th>
+			    <th>操作</th>
+			</tr>
+		    </thead>
+		    <tbody>
+			<tr>
+			    <td>Dev-1</td>
+			    <td>Jerry.peng</td>
+			    <td>
+				<a href='#'>dev-1.nextop.cc</a>
+			    </td>
+			    <td>
+				<a href='#'>Nacos</a>
+				<a href='#'>MySQL</a>
+				<a href='#'>Redis</a>
+			    </td>
+			    <td>2011/05/07</td>
+			    <td>2011/05/07</td>
+			    <td>
+				 
+			    </td>
+			    <td>
+				<button class="btn btn-sm btn-primary">修改</button>
+				<button class="btn btn-sm btn-danger">卸载</button>
+				<button class="btn btn-sm btn-default">详情</button>
+			    </td>
+			</tr>
+		    </tbody>
+		</table>
+	    </div>
+	</div>
+    </div>
+</div>
+<!-- /.container-fluid -->
+
+<!-- End of Main Content -->
+{%endblock%}
+
+
+{%block js%}
+
+<script src="{% static 'vendor/datatables/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
+{%endblock%}
+

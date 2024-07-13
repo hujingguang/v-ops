@@ -1,0 +1,1006 @@
+{%extends "base.html"%}
+{%load static%}
+{%block content%}
+<!-- Begin Page Content -->
+
+
+
+<!-- 保存提测版本信息修改 -->
+
+<div class="modal fade" id="updateVersion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+	<div class="modal-content">
+	    <div class="modal-header">
+		<h7 class="modal-title" id="updateServiceLabel">
+		信息更新
+		</h7>
+	    </div>
+	    <div class="modal-body">
+		<form>
+		    <div class="form-group row">
+			<label for="inputAppName" class="col-sm-2 col-form-label"><font size=2>服务名</font></label>
+			<div class="col-sm-10">
+			    <input type="text" class="form-control " id="update_appName" name="appName" placeholder="" value="" disabled>
+			</div>
+		    </div>
+
+		    <div class="form-group row">
+			<label for="inputAppName" class="col-sm-2 col-form-label"><font size=2>测试人</font></label>
+			<div class="col-sm-10">
+			    <select class="form-control" id="update_testUser" name="testUser">
+			    </select>
+			</div>
+		    </div>
+
+		    <div class="form-group row">
+			<label for="inputAppName" class="col-sm-2 col-form-label"><font size=2>发布环境</font></label>
+			<div class="col-sm-10">
+			    <select class="form-control" id="update_deployEnv" name="deployEnv">
+			    </select>
+			</div>
+		    </div>
+
+		    <div class="form-group row">
+			<label for="inputAppName" class="col-sm-2 col-form-label"><font size=2></font></label>
+			<div class="col-sm-10 invisible">
+			    <input type="text" class="form-control " id="update_deployId" name="deployId" placeholder="" value="" disabled>
+			</div>
+		    </div>
+
+
+		</form>
+
+	    </div>
+	    <div class="modal-footer">
+		<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">取消
+		</button>
+		<button type="button" class="btn btn-primary btn-sm" onclick="return doUpdateVersion(this);" id="btn_updateVersion" deploy_id="_" data-dismiss="modal" >
+		    保存
+		</button>
+	    </div>
+	</div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+
+
+
+
+
+
+
+<!--
+    确认提测版本通过测试模态框
+-->
+<div class="modal fade" id="passVersion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+	<div class="modal-content">
+	    <div class="modal-header">
+	    </div>
+	    <div class="modal-body">
+		确定通过测试吗
+	    </div>
+	    <div class="modal-footer">
+		<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">关闭</button>
+		<button id="btn_pass_confirm" type="button" class="btn btn-danger btn-sm" data-dismiss="modal" deploy_id="_" onclick="return passVersion(this);">确定</button>
+	    </div>
+	</div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+
+
+
+
+
+<!-- 版本详情模态框 -->
+
+<div class="modal fade" id="detailVersion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+	<div class="modal-content">
+	    <div class="modal-header">
+		服务详情
+	    </div>
+	    <div class="modal-body" id="mod_detail_version_div">
+		<form>
+		    <div class="form-group row">
+			<label for="inputAppName" class="col-sm-2 col-form-label"><font size=2>服务名</font></label>
+			<div class="col-sm-10">
+			    <input type="text" class="form-control " id="detail_appName" name="appName" placeholder="" value="" disabled>
+			</div>
+		    </div>
+
+		    <div class="form-group row">
+			<label for="inputAppName" class="col-sm-2 col-form-label"><font size=2>提测分支</font></label>
+			<div class="col-sm-10">
+			    <input type="text" class="form-control " id="detail_featureBranch" name="featureBranch" placeholder="" value="" disabled>
+			</div>
+		    </div>
+
+		    <div class="form-group row">
+			<label for="inputAppName" class="col-sm-2 col-form-label"><font size=2>测试分支</font></label>
+			<div class="col-sm-10">
+			    <input type="text" class="form-control " id="detail_autoTestBranch" name="autoTestBranch" placeholder="" value="" disabled>
+			</div>
+		    </div>
+
+		    <div class="form-group row">
+			<label for="inputAppName" class="col-sm-2 col-form-label"><font size=2>分支位置</font></label>
+			<div class="col-sm-10">
+			    <input type="text" class="form-control " id="detail_autoTestBranchUuid" name="autoTestBranchUuid" placeholder="" value="" disabled>
+			</div>
+		    </div>
+
+		    <div class="form-group row">
+			<label for="inputAppName" class="col-sm-2 col-form-label"><font size=2>创建时间</font></label>
+			<div class="col-sm-10">
+			    <input type="text" class="form-control " id="detail_createTime" name="createTime" placeholder="" value="" disabled>
+			</div>
+		    </div>
+
+		    <div class="form-group row">
+			<label for="inputAppName" class="col-sm-2 col-form-label"><font size=2>更新时间</font></label>
+			<div class="col-sm-10">
+			    <input type="text" class="form-control " id="detail_updateTime" name="updateTime" placeholder="" value="" disabled>
+			</div>
+		    </div>
+
+		    <div class="form-group row">
+			<label for="inputAppName" class="col-sm-2 col-form-label"><font size=2>上线时间</font></label>
+			<div class="col-sm-10">
+			    <input type="text" class="form-control " id="detail_publishTime" name="publishTime" placeholder="" value="" disabled>
+			</div>
+		    </div>
+
+
+		    <div class="form-group row">
+			<label for="inputAppName" class="col-sm-2 col-form-label"><font size=2>提测人</font></label>
+			<div class="col-sm-10">
+			    <h6 class="form-control" style="border: none;box-shadow: none;"><span class="badge badge-secondary" id="detail_createUser"></span></h6>
+			</div>
+		    </div>
+
+
+		    <div class="form-group row">
+			<label for="inputAppName" class="col-sm-2 col-form-label"><font size=2>测试人</font></label>
+			<div class="col-sm-10">
+			    <h6 class="form-control" style="border: none;box-shadow: none;"><span class="badge badge-secondary" id="detail_testUser"></span></h6>
+			</div>
+		    </div>
+
+		    <div class="form-group row">
+			<label for="inputAppName" class="col-sm-2 col-form-label"><font size=2>功能描述</font></label>
+			<div class="col-sm-10">
+			    <textarea class="form-control" style="border: none;box-shadow: none;" id="detail_description" rows="4" disabled>
+			    </textarea>
+			</div>
+		    </div>
+
+		    <div class="form-group row">
+			<label for="inputAppName" class="col-sm-2 col-form-label"><font size=2>部署环境</font></label>
+			<div class="col-sm-10">
+			    <h6 class="form-control" style="border: none;box-shadow: none;"><span class="badge badge-secondary" id="detail_deployEnv"></span></h6>
+			</div>
+		    </div>
+
+		    <div class="form-group row">
+			<label for="inputAppName" class="col-sm-2 col-form-label"><font size=2>代码同步</font></label>
+			<div class="col-sm-10">
+			    <h6 class="form-control" style="border: none;box-shadow: none;"><span class="badge badge-secondary" id="detail_isSync"></span></h6>
+			</div>
+		    </div>
+
+		    <div class="form-group row">
+			<label for="inputAppName" class="col-sm-2 col-form-label"><font size=2>镜像地址</font></label>
+			<div class="col-sm-10">
+			    <h6 class="form-control" style="border: none;box-shadow: none;"><span class="badge badge-secondary" id="detail_testImageUrl"></span></h6>
+			</div>
+		    </div>
+
+
+
+		</form>
+	    </div>
+	    <div class="modal-footer">
+		<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">关闭</button>
+	    </div>
+	</div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+
+
+
+
+
+
+<!-- 版本提测模态框 -->
+<div class="modal fade" id="addVersion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+	<div class="modal-content">
+	    <div class="modal-header">
+		<h7 class="modal-title" id="addVersionLabel">
+		服务提测
+		</h7>
+	    </div>
+	    <div class="modal-body">
+
+		<div class="form-group row">
+		    <label for="inputAppName" class="col-sm-2 col-form-label"><font size=2>选择服务</font></label>
+		    <div class="col-sm-10">
+			<select class="selectpicker form-control" id="select_appName" name="appName" default="" data-live-search="true" required>
+			    <option value='-' selected></option>
+			</select>
+		    </div>
+		</div>
+
+		<div class="form-group row">
+		    <label for="inputAppName" class="col-sm-2 col-form-label"><font size=2>选择分支</font></label>
+		    <div class="col-sm-10">
+			<select class="selectpicker form-control" id="select_featureBranch" name="featureBranch" default="" data-live-search="true" required>
+			    <option value='-' selected></option>
+			</select>
+		    </div>
+		</div>
+
+		<!--
+		<div class="form-group row">
+		    <label for="inputAppName" class="col-sm-2 col-form-label"><font size=2>提测分支</font></label>
+		    <div class="col-sm-10">
+			<input type="text" class="form-control" id="input_featureBranch" name="featureBranch" placeholder="" ></input>
+			<small id="passwordHelpInline" class="text-muted">
+			    提测功能分支,请确保存在
+			</small>
+		    </div>
+		</div>
+		-->
+
+
+		<div class="form-group row">
+		    <label for="inputAppName" class="col-sm-2 col-form-label"><font size=2>功能描述</font></label>
+		    <div class="col-sm-10">
+			<textarea class="form-control" id="input_description" rows="4" placeholder="" style="font-size:14px;"></textarea>
+			<small id="passwordHelpInline" class="text-muted">
+			    提测版本功能描述
+			</small>
+		    </div>
+		</div>
+
+
+		<div class="form-group row">
+		    <label for="inputAppName" class="col-sm-2 col-form-label"><font size=2>分配测试人</font></label>
+		    <div class="col-sm-10">
+			<select class="form-control" id="select_testUser" name="testUser" default="">
+			    <option value='-' selected></option>
+			</select>
+		    </div>
+		</div>
+
+
+		<div class="form-group row">
+		    <label for="inputAppName" class="col-sm-2 col-form-label"><font size=2>部署环境</font></label>
+		    <div class="col-sm-10">
+			<select class="form-control" id="select_deployEnv" name="deployEnv" default="">
+			    <option value='-' selected></option>
+			</select>
+		    </div>
+		</div>
+
+		<div class="form-group row">
+		    <label for="inputAppName" class="col-sm-2 col-form-label"><font size=2>是否同步</font></label>
+		    <div class="col-sm-10">
+			<select class="form-control" id="select_isSync" name="isSync">
+			    <option value=0 selected>不开启</option>
+			    <option value=1 >开启</option>
+			</select>
+			<small id="passwordHelpInline" class="text-muted">
+			    是否开启feature分支代码同步到测试分支
+			</small>
+		    </div>
+		</div>
+
+	    </div>
+	    <div class="modal-footer">
+		<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">关闭
+		</button>
+		<button type="button" id="btn_confirm_addVersion" class="btn btn-primary btn-sm" onclick="return doAddVersion(this);">
+		    提交
+		</button>
+	    </div>
+	</div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+
+
+
+<!--
+    版本提测按钮区域
+-->
+
+<div class="container-fluid">
+
+    <!-- Then put toasts within -->
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    </div>
+
+
+    <div class="row">
+	<div class="container-fluid">
+	    <div class="btn-group" role="group" aria-label="version_action">
+		<a id="btn_addVersion" type="button" class="btn btn-success btn-sm btn-rounded waves-effect waves-light" data-toggle="modal" data-target="#addVersion" onclick="return doClickAddVersion(this);">版本提测
+		    <i class="fas fa-plus-square ml-1">
+		    </i>
+
+		</a>
+	    </div>
+	</div>
+    </div>
+    <div class="row">
+	<div class="container-fluid">
+	    <h3 class="h3 mb-2 text-gray-800"></h3>
+	    <div class="card shadow mb-4">
+		<div class="card-header py-3">
+		    <h6 class="m-0 font-weight-bold text-primary">提测信息</h6>
+		</div>
+		<div class="card-body">
+		    <div class="table-responsive">
+			<table class="table table-bordered table-sm table-striped table-hover" id="dataTable" cellspacing="0">
+			    <thead>
+				<tr>
+				    <th><font size=2>服务名</font></th>
+				    <th><font size=2>feture分支</font></th>
+				    <th><font size=2>生成test分支</font></th>
+				    <th><font size=2>发布状态</font></th>
+				    <th><font size=2>测试状态</font></th>
+				    <th><font size=2>上线状态</font></th>
+				    <th><font size=2>发布环境</font></th>
+				    <th><font size=2>提测人</font></th>
+				    <th><font size=2>日志查看</font></th>
+				    <th><font size=2>操作</font></th>
+				</tr>
+			    </thead>
+			    <tbody>
+
+				<!--
+	<tr>
+	<td><font size=1> </font></td>
+	<td><font size=1> </font></td>
+	<td><font size=1></font></td>
+	<td>
+	<span class="badge badge-success float-center">已发布</span>
+	</td>
+	<td>
+	<span class="badge badge-success float-center">测试通过</span>
+	</td>
+	<td>
+	<span class="badge badge-danger float-center">未上线</span>
+	</td>
+	<td><font size=1> </font></td>
+	<td><font size=1></font></td>
+	<td>
+
+	<button class="btn btn-outline-default btn-sm m-0 waves-effect" service_id="{{version.version_id}}" data-toggle='modal' data-target="#delService" onclick="return markId(this);" do_action="del" title='点击查看编译日志'>编译</button>
+	<button class="btn btn-outline-default btn-sm m-0 waves-effect" service_id="{{version.version_id}}" data-toggle='modal' data-target="#delService" onclick="return markId(this);" do_action="del" title='点击查看部署日志'>发布</button>
+	<button class="btn btn-outline-default btn-sm m-0 waves-effect" service_id="{{version.version_id}}" data-toggle='modal' data-target="#delService" onclick="return markId(this);" do_action="del" title='点击查看操作日志'>操作</button>
+	</td>
+	<td>
+	<button class="btn btn-outline-warning btn-sm m-0 waves-effect" service_id="{{version.version_id}}" data-toggle='modal' data-target="#delService" onclick="return markId(this);" do_action="del" title='点击开始部署至环境' >部署</button>
+	<button class="btn btn-outline-primary btn-sm m-0 waves-effect" service_id="{{version.version_id}}" data-toggle='modal' data-target="#delService" onclick="return markId(this);" do_action="del" title='点击修改提测表单'>修改</button>
+	<button class="btn btn-sm btn-default" service_id="{{version.version_id}}" data-toggle='modal' data-target="#delService" onclick="return markId(this);" do_action="del" title='点击查看记录详情'>详情</button>
+	<button class="btn btn-outline-danger btn-sm m-0 waves-effect" service_id="{{version.version_id}}" data-toggle='modal' data-target="#delService" onclick="return markId(this);" do_action="del" title='点击通过测试'>通过测试</button>
+	</td>
+	</tr>
+				-->
+				{%for version in version_records %}
+				<tr>
+				    <td><font size=1>{{version.app_name}} </font></td>
+				    <td><font size=1>{{version.feature_branch}} </font></td>
+				    <td><font size=1>{{version.auto_test_branch}} </font></td>
+				    <td>
+					{%if version.deploy_status == "Pending" %}
+					<span class="badge badge-secondary float-center">待编译</span>
+					{%elif version.deploy_status == "Compiling" %}
+					<span class="badge badge-warning float-center">编译中...</span>
+					{%elif version.deploy_status == "CompileFailed" %}
+					<span class="badge badge-danger float-center">编译失败</span>
+					{%elif version.deploy_status == "DeployFailed" %}
+					<span class="badge badge-danger float-center">部署失败</span>
+					{%elif version.deploy_status == "DeployPass" %}
+					<span class="badge badge-success float-center">部署成功</span>
+					{%else%}
+					<span class="badge badge-dark float-center">状态未知</span>
+					{%endif%}
+				    </td>
+				    <td>
+					{%if version.test_status == "WaitTest" %}
+					<span class="badge badge-secondary float-center">待测试</span>
+					{%elif version.test_status == "TestPass" %}
+					<span class="badge badge-success float-center">测试通过</span>
+					{%else%}
+					<span class="badge badge-dark float-center">状态未知</span>
+					{%endif%}
+				    </td>
+				    <td>
+					{%if version.publish_status == 0 %}
+					<span class="badge badge-danger float-center">未上线</span>
+					{%elif version.publish_status == 1 %}
+					<span class="badge badge-success float-center">已上线</span>
+					{%elif version.publish_status == 2 %}
+					<span class="badge badge-primary float-center">上线中</span>
+					{%else%}
+					<span class="badge badge-dark float-center">状态未知</span>
+					{%endif%}
+				    </td>
+				    <td><font size=1>{{version.env_obj.env_name}} </font></td>
+				    <td><font size=1>{{version.create_user}} </font></td>
+				    <td>
+					<!--
+	 <button class="btn btn-outline-default btn-sm m-0 waves-effect" deploy_id="{{version.deploy_id}}" data-toggle='modal' data-target="#delService" onclick="return markId(this);" do_action="del" title='点击查看编译日志'>编译</button>
+					-->
+					{%if version.jenkins_log_url %}
+				   	    {%if version.deploy_status == "Compiling"  or version.deploy_status == "DeployFailed" or version.deploy_status == "CompileFailed" or version.deploy_status == "DeployPass" %}
+					     <a class="btn btn-outline-default btn-sm m-0 waves-effect text-info" href="{{version.jenkins_log_url}}" target="_blank" title='点击查看部署日志'>发布日志</a>
+					    {%elif version.deploy_status == "Pending"%}
+					    <a class="btn btn-outline-default btn-sm m-0 waves-effect text-warning" href="#" title='请手动刷新'>待生成</a>
+					    {%endif%}
+					{%else%}
+					    {%if version.deploy_status == "Pending"%}
+					    <a class="btn btn-outline-default btn-sm m-0 waves-effect text-warning" href="#" title='请手动刷新'>待生成</a>
+					    {%else%}
+					<a class="btn btn-outline-default btn-sm m-0 waves-effect text-warning" href="#" title='请手动刷新'>正在生成</a>
+					{%endif%}
+					{%endif%}
+					<!--
+	 <button class="btn btn-outline-default btn-sm m-0 waves-effect" deploy_id="{{version.deploy_id}}" data-toggle='modal' data-target="#delService" onclick="return markId(this);" do_action="del" title='点击查看操作日志'>操作</button>
+					-->
+				    </td>
+				    <td>
+					{%if version.test_status != "TestPass" %}
+
+					{%if version.deploy_status != "Compiling" %}
+					<button class="btn btn-outline-warning btn-sm m-0 waves-effect" deploy_id="{{version.deploy_id}}" onclick="return deployVersion(this);" do_action="deploy" title='点击开始部署至环境' >部署</button>
+					{%endif%}
+					<button class="btn btn-outline-primary btn-sm m-0 waves-effect" service_name="{{version.app_name}}" deploy_id="{{version.deploy_id}}" data-toggle='modal' data-target="#updateVersion" onclick="return doClickUpdateVersion(this);" do_action="update" title='点击修改提测表单'>修改</button>
+					{%endif%}
+
+					<button class="btn btn-sm btn-default"  deploy_id="{{version.deploy_id}}" data-toggle='modal' data-target="#detailVersion" onclick="return doClickDetailVersion(this);" do_action="detail" title='点击查看记录详情'>详情</button>
+					{%if version.test_status != "TestPass" and  version.deploy_status == "DeployPass" %}
+					<!-- 此处以后需要加上 发布失败不显示测试通过按钮 -->
+				<button class="btn btn-outline-danger btn-sm m-0 waves-effect" deploy_id="{{version.deploy_id}}" data-toggle='modal' data-target="#passVersion" onclick="return markId(this);" do_action="pass" title='点击通过测试'>通过测试</button>
+					{%endif%}
+				    </td>
+				</tr>
+				{%endfor%}
+			    </tbody>
+			</table>
+		    </div>
+
+		    <div class="">
+			<ul>
+			</ul>
+		    </div>
+
+		    <nav aria-label="Page navigation">
+			<ul class="pagination">	
+
+			    {%if version_records.has_previous %}
+			    <li class="in-line"><a href="?page={{version_records.previous_page_number}}">&larr;Previous</a></li>
+			    {%endif%}
+			    <li>
+				....
+			    </li>
+			    <li>
+				<span class='in-line'> Page {{ version_records.number}} of {{ version_records.paginator.num_pages }}  </span>
+
+			    </li>
+			    <li>
+				....
+			    </li>
+			    {%if version_records.has_next %}
+			    <li class="in-line">  <a href="?page={{version_records.next_page_number}}">Next &rarr;</a> </li>
+			    {%endif%}
+			</ul>
+
+		    </nav>
+
+
+		</div>
+	    </div>
+	</div>
+    </div>
+
+</div>
+{%endblock content%}
+
+
+
+{%block js%}
+<script>
+    var btnAddVersionIsClick=false;
+    var btnUpdateVersionIsClick=false;
+    var MaskLayer = new MaskLayer();
+
+    function markId(obj){
+	    var deploy_id = $(obj).attr('deploy_id');
+	    var action = $(obj).attr('do_action');
+	    if(action == "pass"){
+		    $('#btn_pass_confirm').attr('deploy_id',deploy_id);
+		}
+	}
+
+
+    $('#select_appName').change(function(){
+	    MaskLayer.start('正在获取分支');
+	    app_name = $('#select_appName').val();
+	    options = {
+		    datatype:'json',
+		    url: '/deploy/versionTestBranchSelect/',
+		    type: 'post',
+		    data: {app_name:app_name}, //参数不正确会导致jquery无限调用
+		    error: function(){
+		            MaskLayer.stop();
+			    alert('接口报错');
+			   // window.setTimeout("refreshPage()");
+			},
+		    success: function(data){
+			    if(data.status==0){
+				    MaskLayer.stop();
+				    $('#select_featureBranch').empty();
+				    for( var svc in data.data ){
+					    var name = "<option value=\"" + data.data[svc] + "\">" + data.data[svc] + "</option>";
+					    $('#select_featureBranch').append(name);
+					}
+				}
+			    else{
+				    MaskLayer.stop();
+				    alert(data.msg);
+				}
+			}
+		};
+	    $.ajaxSetup({data:{csrfmiddlewaretoken:'{{csrf_token}}'}});
+	    $.ajax(options);
+	});
+
+    //点击开始部署提测版本
+    function deployVersion(obj){
+	    var deploy_id = $(obj).attr('deploy_id');
+	    console.log(deploy_id);
+	    MaskLayer.start('开始提交至部署队列');
+	    options = {
+		    datatype: 'json',
+		    url: '/deploy/deployVersion/',
+		    type: 'post',
+		    data: {deploy_id:deploy_id},
+		    error:function(){
+			    MaskLayer.stop();
+			    alert('无权限,请联系管理员开通');
+			},
+		    success:function(data){
+			    toastr.options = {
+				    positionClass: "toast-top-center",
+				    debug: false,
+				    timeOut: "3000",
+				    extendedTimeOut: "3000",
+				    showMethod: "fadeIn",
+				    hideMethod: "fadeOut"
+				};
+			    if(data.status==0){
+				    MaskLayer.stop();
+				    toastr.success(data.msg);
+				    window.setTimeout("refreshPage()",1500);
+				}
+			    else{
+				    MaskLayer.stop();
+				    toastr.error(data.msg);
+				}
+
+			}
+		};
+	    $.ajaxSetup({data:{csrfmiddlewaretoken:'{{csrf_token}}'}});
+	    $.ajax(options);
+	};
+
+
+    //点击确认通过提测版本
+    function passVersion(obj){
+	    var deploy_id = $(obj).attr('deploy_id');
+	    MaskLayer.start('提交请求');
+	    options = {
+		    datatype: 'json',
+		    url: '/deploy/passVersion/',
+		    type: 'post',
+		    data: {deploy_id:deploy_id},
+		    error:function(){
+			    MaskLayer.stop();
+			    alert('无权限,请联系管理员开通');
+			},
+		    success:function(data){
+			    toastr.options = {
+				    positionClass: "toast-top-center",
+				    debug: false,
+				    timeOut: "3000",
+				    extendedTimeOut: "3000",
+				    showMethod: "fadeIn",
+				    hideMethod: "fadeOut"
+				};
+			    if(data.status==0){
+				    MaskLayer.stop();
+				    toastr.success(data.msg);
+				    window.setTimeout("refreshPage()",500);
+				}
+			    else{
+				    MaskLayer.stop();
+				    toastr.error(data.msg);
+				}
+
+			}
+		};
+	    $.ajaxSetup({data:{csrfmiddlewaretoken:'{{csrf_token}}'}});
+	    $.ajax(options);
+	};
+
+
+
+
+
+    //提交版本提测修改数据
+    function doUpdateVersion(obj){
+	    var app_name = $('#update_appName').val();
+	    var test_user = $('#update_testUser').val();
+	    var deploy_env = $('#update_deployEnv').val();
+	    var deploy_id = $('#update_deployId').val();
+	    $('#btn_updateVersion').attr('data-dismiss','modal');
+	    MaskLayer.start('正在更新数据');
+	    options = {
+		    datatype: 'json',
+		    url: '/deploy/updateVersion/',
+		    type: 'post',
+		    data: {app_name:app_name,test_user:test_user,deploy_env:deploy_env,deploy_id:deploy_id},
+		    error:function(){
+			    MaskLayer.stop();
+			    alert('无权限,请联系管理员开通');
+			},
+		    success:function(data){
+			    toastr.options = {
+				    positionClass: "toast-top-center",
+				    debug: false,
+				    timeOut: "3000",
+				    extendedTimeOut: "3000",
+				    showMethod: "fadeIn",
+				    hideMethod: "fadeOut"
+				};
+			    if(data.status==0){
+				    MaskLayer.stop();
+				    toastr.success(data.msg);
+				    window.setTimeout("refreshPage()",1000);
+				}
+			    else{
+				    MaskLayer.stop();
+				    toastr.error(data.msg);
+				}
+			}
+		};
+	    $.ajaxSetup({data:{csrfmiddlewaretoken:'{{csrf_token}}'}});
+	    $.ajax(options);
+	}
+
+
+
+    //开始提交版本提测数据
+    function doAddVersion(obj){
+	    var appName = $('#select_appName').val();
+	    var featureBranch = $('#select_featureBranch').val();
+	    var description = $('#input_description').val();
+	    var testUser = $('#select_testUser').val();
+	    var deployEnv = $('#select_deployEnv').val();
+	    var isSync = $('#select_isSync').val();
+	    console.log(featureBranch);
+	    if(appName == "-" ){
+		    $("#select_appName").addClass('is-invalid');
+		    $("#select_appName").bind("input propertychange",function(event){
+			    $('#select_appName').removeClass('is-invalid');
+			});
+		}
+	    else if(testUser == "-" ){
+		    $("#select_testUser").addClass('is-invalid');
+		    $("#select_testUser").bind("input propertychange",function(event){
+			    $('#select_testUser').removeClass('is-invalid');
+			});
+		}
+	    else if(deployEnv == "-" ){
+		    $("#select_deployEnv").addClass('is-invalid');
+		    $("#select_deployEnv").bind("input propertychange",function(event){
+			    $('#select_deployEnv').removeClass('is-invalid');
+			});
+		}
+	    else if(featureBranch.length==0 || featureBranch.trim() == "" ){
+		    $("#input_featureBranch").addClass('is-invalid');
+		    $("#input_featureBranch").bind("input propertychange",function(event){
+			    $('#input_featureBranch').removeClass('is-invalid');
+			});
+		}
+	    else if(description.length==0 || description.trim() == "" ){
+		    $("#input_description").addClass('is-invalid');
+		    $("#input_description").bind("input propertychange",function(event){
+			    $('#input_description').removeClass('is-invalid');
+			});
+		}
+	    else{
+		    $('#btn_bindService').attr('data-dismiss','modal');
+		    MaskLayer.start('正在检测提交数据');
+		    options = {
+			    datatype: 'json',
+			    url: '/deploy/addVersion/',
+			    type: 'post',
+			    data: {app_name:appName,feature_branch:featureBranch,description:description,test_user:testUser,deploy_env:deployEnv,is_sync:isSync},
+			    error:function(){
+				    $('#btn_confirm_addVersion').attr('data-dismiss','modal');
+				    MaskLayer.stop();
+				    alert('无权限,请联系管理员开通');
+				},
+			    success:function(data){
+				    MaskLayer.stop();
+				    toastr.options = {
+					    positionClass: "toast-top-center",
+					    debug: false,
+					    timeOut: "3000",
+					    extendedTimeOut: "3000",
+					    showMethod: "fadeIn",
+					    hideMethod: "fadeOut"
+					};
+				    if(data.status==0){
+					    MaskLayer.stop();
+					    toastr.success(data.msg);
+					    window.setTimeout("refreshPage()",1000);
+					}
+				    else{
+					    MaskLayer.stop();
+					    toastr.error(data.msg);
+					}
+				}
+			};
+		    $.ajaxSetup({data:{csrfmiddlewaretoken:'{{csrf_token}}'}});
+		    $.ajax(options);
+		}
+
+	}
+
+
+    //点击修改版本信息
+    function doClickUpdateVersion(obj){
+	    if(btnUpdateVersionIsClick){
+		    console.log('nothing to do');
+		}
+	    else{
+	    btnUpdateVersionIsClick = true;
+	    var deploy_id = $(obj).attr('deploy_id');
+	    var service_name = $(obj).attr('service_name');
+	    $('#update_appName').val(service_name);
+	    $('#update_deployId').val(deploy_id);
+	    options = {
+		    datatype:'json',
+		    url: '/deploy/versionTestUserSelect/',
+		    type: 'post',
+		    data: {}, //参数不正确会导致jquery无限调用
+		    error: function(){
+			    $('#btn_updateVersion').attr('data-dismiss','modal');
+			},
+		    success: function(data){
+			    if(data.status==0){
+				    for( var svc in data.data ){
+					    var o = new Option(data.data[svc],svc);
+					    $('#update_testUser').append(o);
+					}
+				}
+			    else{
+				    alert(data.msg);
+				}
+			}
+		};
+	    $.ajaxSetup({data:{csrfmiddlewaretoken:'{{csrf_token}}'}});
+	    $.ajax(options);
+
+	    options = {
+		    datatype:'json',
+		    url: '/deploy/versionTestEnvSelect/',
+		    type: 'post',
+		    data: {}, //参数不正确会导致jquery无限调用
+		    error: function(){
+			    $('#btn_updateVersion').attr('data-dismiss','modal');
+			},
+		    success: function(data){
+			    if(data.status==0){
+				    for( var svc in data.data ){
+					    var o = new Option(data.data[svc],data.data[svc]);
+					    $('#update_deployEnv').append(o);
+					}
+				}
+			    else{
+				    alert(data.msg);
+				}
+			}
+		};
+	    $.ajaxSetup({data:{csrfmiddlewaretoken:'{{csrf_token}}'}});
+	    $.ajax(options);
+		    
+
+	}
+	}
+
+
+
+
+
+    //点击版本提测按钮获取服务信息
+    function doClickAddVersion(obj){
+	    if(btnAddVersionIsClick){
+		    console.log('nothing to do');
+		}
+	    else{
+		    btnAddVersionIsClick = true;
+		    options = {
+			    datatype:'json',
+			    url: '/deploy/versionTestServiceSelect/',
+			    type: 'post',
+			    data: {}, //参数不正确会导致jquery无限调用
+			    error: function(){
+				    $('#btn_addVersion').attr('data-dismiss','modal');
+				},
+			    success: function(data){
+				    if(data.status==0){
+					    for( var svc in data.data ){
+						    var o = new Option(data.data[svc],data.data[svc]);
+						    $('#select_appName').append(o);
+						}
+					}
+				    else{
+					    alert(data.msg);
+					}
+				}
+			};
+		    $.ajaxSetup({data:{csrfmiddlewaretoken:'{{csrf_token}}'}});
+		    $.ajax(options);
+
+		    options = {
+			    datatype:'json',
+			    url: '/deploy/versionTestUserSelect/',
+			    type: 'post',
+			    data: {}, //参数不正确会导致jquery无限调用
+			    error: function(){
+				    $('#btn_addVersion').attr('data-dismiss','modal');
+				},
+			    success: function(data){
+				    if(data.status==0){
+					    for( var svc in data.data ){
+						    var o = new Option(data.data[svc],svc);
+						    $('#select_testUser').append(o);
+						}
+					}
+				    else{
+					    alert(data.msg);
+					}
+				}
+			};
+		    $.ajaxSetup({data:{csrfmiddlewaretoken:'{{csrf_token}}'}});
+		    $.ajax(options);
+
+		    options = {
+			    datatype:'json',
+			    url: '/deploy/versionTestEnvSelect/',
+			    type: 'post',
+			    data: {}, //参数不正确会导致jquery无限调用
+			    error: function(){
+				    $('#btn_addVersion').attr('data-dismiss','modal');
+				},
+			    success: function(data){
+				    if(data.status==0){
+					    for( var svc in data.data ){
+						    var o = new Option(data.data[svc],data.data[svc]);
+						    $('#select_deployEnv').append(o);
+						}
+					}
+				    else{
+					    alert(data.msg);
+					}
+				}
+			};
+		    $.ajaxSetup({data:{csrfmiddlewaretoken:'{{csrf_token}}'}});
+		    $.ajax(options);
+
+		}
+	}
+
+
+
+    //查看版本详情
+    function doClickDetailVersion(obj){
+	    var deploy_id = $(obj).attr('deploy_id');
+	    // $("#btn_detailService").attr('service_id',app_name);
+	    options = {
+		    datatype:'json',
+		    url: '/deploy/getVersion/',
+		    type: 'post',
+		    data: {deploy_id:deploy_id}, //参数不正确会导致jquery无限调用
+		    error: function(){
+			    alert('无权限,请联系管理员开通');
+			},
+		    success: function(data){
+			    if(data.status==0){
+				    $('#detail_appName').val(data.data.app_name);
+				    $('#detail_featureBranch').val(data.data.feature_branch);
+				    $('#detail_autoTestBranch').val(data.data.auto_test_branch);
+				    $('#detail_autoTestBranchUuid').val(data.data.auto_test_branch_uuid);
+				    $('#detail_createTime').val(data.data.create_time);
+				    $('#detail_updateTime').val(data.data.update_time);
+				    $('#detail_publishTime').val(data.data.publish_time);
+				    $('#detail_createUser').text(data.data.create_user);
+				    $('#detail_testUser').text(data.data.test_user);
+				    $('#detail_description').text(data.data.description);
+				    $('#detail_deployEnv').text(data.data.env_name);
+				    $('#detail_testImageUrl').text(data.data.image_url);
+				    if(data.data.is_sync==0){
+				        $('#detail_isSync').text('未开启');
+					}
+				    else{
+				    $('#detail_isSync').text('已开启');
+					}
+				}
+			    else{
+				    alert(data.msg);
+				}
+			}
+		};
+	    $.ajaxSetup({data:{csrfmiddlewaretoken:'{{csrf_token}}'}});
+	    $.ajax(options);
+	}
+
+
+
+    function refreshPage(){
+	    location.reload();
+	};
+
+</script>
+<!--
+    修改toastr样式
+-->
+<style>
+
+.toast-message {
+    color: #ffffff !important;
+}
+.toast{
+    background-image: none !important;
+}
+		  /*
+		     .table{
+			 table-layout:fixed;
+		     }
+		   */
+
+		     .table td.text {
+			 max-width: 200px;
+			 span {
+			     white-space: nowrap;
+			     overflow: hidden;
+			     text-overflow: ellipsis;
+			 }
+		     }
+		     #toast-container > .toast-success {
+			 color: #ffffff !important;
+			 background: yellowgreen !important;
+			 background-image: none !important;
+		     }
+		     #toast-container > .toast-error {
+			 color: #ffffff !important;
+			 background: red !important;
+			 background-image: none !important;
+		     }
+
+</style>
+
+{%endblock js%}
+
