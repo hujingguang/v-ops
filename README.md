@@ -11,7 +11,7 @@ Python libs： ./requirements.txt
 -----------
 登陆界面
 
-![](http://git.nextop.cc/nextop-ops/v-ops/blob/master/screen/1.png)
+![](https://github.com/hujingguang/v-ops/blob/main/screen/1.png)
 
 
 项目提测
