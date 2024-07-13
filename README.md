@@ -1,11 +1,12 @@
 # v-ops
 万拓科技devops运维平台
 
-开发环境： Linux Centos7.6 . Python3.8  Django3.1  MySQL5.7 
+开发环境： Linux Centos7.6 . Python3.8  Django3.1  MySQL5.7 Redis 4.0
 
 Python libs： ./requirements.txt
 
 
+该项目可以结合Jenkins做项目管理和自动化发布。
 
 #### Screenshots
 -----------
