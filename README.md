@@ -16,15 +16,15 @@ Python libs： ./requirements.txt
 
 项目提测
 
-![](http://git.nextop.cc/nextop-ops/v-ops/blob/master/screen/2.png)
+![](https://github.com/hujingguang/v-ops/blob/main/screen/2.png)
 
 项目上线
 
-![](http://git.nextop.cc/nextop-ops/v-ops/blob/master/screen/3.png)
+![](https://github.com/hujingguang/v-ops/blob/main/screen/3.png)
 
 项目定义
 
-![](http://git.nextop.cc/nextop-ops/v-ops/blob/master/screen/4.png)
+![](https://github.com/hujingguang/v-ops/blob/main/screen/4.png)
 
 系统配置
-![](http://git.nextop.cc/nextop-ops/v-ops/blob/master/screen/5.png)
+![](https://github.com/hujingguang/v-ops/blob/main/screen/5.png)
