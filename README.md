@@ -6,7 +6,7 @@ vantop devops运维平台
 Python libs： ./requirements.txt
 
 
-该项目可以使用LDAP账号登录，结合Jenkins做服务管理和自动化发布。
+该项目接入LDAP账号统一登录，结合Jenkins做服务管理和自动化发布。
 
 #### Screenshots
 -----------
